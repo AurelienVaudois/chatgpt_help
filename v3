@@ -1,0 +1,63 @@
+import spacy
+from wordcloud import WordCloud
+import matplotlib.pyplot as plt
+import os
+import re
+import nltk
+from nltk.corpus import stopwords
+
+# Charger le modèle Spacy en français
+nlp = spacy.load('fr_core_news_sm')
+
+# Télécharger les mots vides en français
+nltk.download('stopwords')
+
+# Exemple de DataFrame avec une colonne "ID" et une colonne "Texte"
+df = pd.DataFrame({'ID': [1, 2, 3],
+                   'Texte': ['Ceci est un texte.', 'Un autre texte.', 'Encore un texte.']})
+
+# Répertoire de destination pour les images sauvegardées
+output_dir = 'wordclouds'
+os.makedirs(output_dir, exist_ok=True)
+
+# Fonction de nettoyage du nom de fichier
+def sanitize_filename(filename):
+    forbidden_chars = r'[<>:"/\\|?*\x00-\x1F\x7F]'
+    sanitized_filename = re.sub(forbidden_chars, '', filename)
+    return sanitized_filename
+
+# Liste des mots vides en français
+stop_words = set(stopwords.words('french'))
+
+# Itérer sur les lignes du DataFrame
+for index, row in df.iterrows():
+    texte = row['Texte']
+    
+    # Filtrer les mots vides dans le texte
+    words_filtered = []
+    doc = nlp(texte)
+    for token in doc:
+        if token.pos_ == 'NOUN':  # Ne conserver que les noms
+            words_filtered.append(token.text)
+    cleaned_text = ' '.join(words_filtered)
+    
+    # Créer un objet WordCloud avec les mots filtrés
+    wordcloud = WordCloud(width=800, height=400).generate(cleaned_text)
+    
+    # Afficher le nuage de mots
+    plt.figure(figsize=(10, 5))
+    plt.imshow(wordcloud, interpolation='bilinear')
+    plt.title(f'ID: {row["ID"]}')
+    plt.axis('off')
+    
+    # Nettoyer le nom de fichier
+    sanitized_filename = sanitize_filename(f'wordcloud_{row["ID"]}.png')
+    
+    # Chemin complet du fichier de sortie
+    output_path = os.path.join(output_dir, sanitized_filename)
+    
+    # Sauvegarder le nuage de mots dans un fichier
+    plt.savefig(output_path, bbox_inches='tight')
+    
+    # Fermer la figure pour libérer la mémoire
+    plt.close()
