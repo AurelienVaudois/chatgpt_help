@@ -1,0 +1,129 @@
+import numpy as np
+from sklearn.datasets import make_multilabel_classification
+from sklearn.model_selection import train_test_split
+from skmultilearn.model_selection import iterative_train_test_split
+from skmultilearn.problem_transform import LabelPowerset
+from skmultilearn.ensemble import LabelSpacePartitioningClassifier
+
+# Paramètres du jeu de données
+nombre_labels = 42
+exemples_par_label = 50
+nombre_total_exemples = nombre_labels * exemples_par_label
+test_size = 0.2  # Proportion de l'ensemble de test
+
+# Génération des données initiales
+X, y = make_multilabel_classification(
+    n_samples=nombre_total_exemples,
+    n_features=10,  # Nombre de caractéristiques par exemple
+    n_classes=nombre_labels,
+    n_labels=5,  # Nombre moyen de labels actifs par exemple
+    random_state=42
+)
+
+# Séparation des données en ensembles de train et de test
+X_train, y_train, X_test, y_test = iterative_train_test_split(X, y, test_size=test_size)
+
+# Utilisation de LabelPowerset pour transformer le problème de classification multilabel en un problème multiclasse
+lp = LabelPowerset()
+X_train_transformed, y_train_transformed = lp.transform(X_train, y_train)
+X_test_transformed, y_test_transformed = lp.transform(X_test, y_test)
+
+# Sous-échantillonnage équilibré par label pour l'ensemble d'entraînement
+clf = LabelSpacePartitioningClassifier()
+X_train_sous_echantillon, y_train_sous_echantillon = clf.fit_resample(X_train_transformed, y_train_transformed)
+
+# Afficher la distribution des labels dans l'ensemble d'entraînement sous-échantillonné
+distribution_train = np.sum(y_train_sous_echantillon, axis=0)
+print("Distribution des labels dans l'ensemble d'entraînement sous-échantillonné :")
+print(distribution_train)
+
+# Afficher la distribution des labels dans l'ensemble de test
+distribution_test = np.sum(y_test, axis=0)
+print("Distribution des labels dans l'ensemble de test :")
+print(distribution_test)
+import numpy as np
+from sklearn.datasets import make_multilabel_classification
+from sklearn.model_selection import train_test_split
+from skmultilearn.model_selection import iterative_train_test_split
+from skmultilearn.problem_transform import LabelPowerset
+from skmultilearn.ensemble import LabelSpacePartitioningClassifier
+
+# Paramètres du jeu de données
+nombre_labels = 42
+exemples_par_label = 50
+nombre_total_exemples = nombre_labels * exemples_par_label
+test_size = 0.2  # Proportion de l'ensemble de test
+
+# Génération des données initiales
+X, y = make_multilabel_classification(
+    n_samples=nombre_total_exemples,
+    n_features=10,  # Nombre de caractéristiques par exemple
+    n_classes=nombre_labels,
+    n_labels=5,  # Nombre moyen de labels actifs par exemple
+    random_state=42
+)
+
+# Séparation des données en ensembles de train et de test
+X_train, y_train, X_test, y_test = iterative_train_test_split(X, y, test_size=test_size)
+
+# Utilisation de LabelPowerset pour transformer le problème de classification multilabel en un problème multiclasse
+lp = LabelPowerset()
+X_train_transformed, y_train_transformed = lp.transform(X_train, y_train)
+X_test_transformed, y_test_transformed = lp.transform(X_test, y_test)
+
+# Sous-échantillonnage équilibré par label pour l'ensemble d'entraînement
+clf = LabelSpacePartitioningClassifier()
+X_train_sous_echantillon, y_train_sous_echantillon = clf.fit_resample(X_train_transformed, y_train_transformed)
+
+# Afficher la distribution des labels dans l'ensemble d'entraînement sous-échantillonné
+distribution_train = np.sum(y_train_sous_echantillon, axis=0)
+print("Distribution des labels dans l'ensemble d'entraînement sous-échantillonné :")
+print(distribution_train)
+
+# Afficher la distribution des labels dans l'ensemble de test
+distribution_test = np.sum(y_test, axis=0)
+print("Distribution des labels dans l'ensemble de test :")
+print(distribution_test)
+import numpy as np
+from sklearn.datasets import make_multilabel_classification
+from sklearn.model_selection import train_test_split
+from skmultilearn.model_selection import iterative_train_test_split
+from skmultilearn.problem_transform import LabelPowerset
+from skmultilearn.ensemble import LabelSpacePartitioningClassifier
+
+# Paramètres du jeu de données
+nombre_labels = 42
+exemples_par_label = 50
+nombre_total_exemples = nombre_labels * exemples_par_label
+test_size = 0.2  # Proportion de l'ensemble de test
+
+# Génération des données initiales
+X, y = make_multilabel_classification(
+    n_samples=nombre_total_exemples,
+    n_features=10,  # Nombre de caractéristiques par exemple
+    n_classes=nombre_labels,
+    n_labels=5,  # Nombre moyen de labels actifs par exemple
+    random_state=42
+)
+
+# Séparation des données en ensembles de train et de test
+X_train, y_train, X_test, y_test = iterative_train_test_split(X, y, test_size=test_size)
+
+# Utilisation de LabelPowerset pour transformer le problème de classification multilabel en un problème multiclasse
+lp = LabelPowerset()
+X_train_transformed, y_train_transformed = lp.transform(X_train, y_train)
+X_test_transformed, y_test_transformed = lp.transform(X_test, y_test)
+
+# Sous-échantillonnage équilibré par label pour l'ensemble d'entraînement
+clf = LabelSpacePartitioningClassifier()
+X_train_sous_echantillon, y_train_sous_echantillon = clf.fit_resample(X_train_transformed, y_train_transformed)
+
+# Afficher la distribution des labels dans l'ensemble d'entraînement sous-échantillonné
+distribution_train = np.sum(y_train_sous_echantillon, axis=0)
+print("Distribution des labels dans l'ensemble d'entraînement sous-échantillonné :")
+print(distribution_train)
+
+# Afficher la distribution des labels dans l'ensemble de test
+distribution_test = np.sum(y_test, axis=0)
+print("Distribution des labels dans l'ensemble de test :")
+print(distribution_test)
