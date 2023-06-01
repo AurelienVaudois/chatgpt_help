@@ -1,0 +1,26 @@
+import numpy as np
+from sklearn.datasets import make_multilabel_classification
+
+# Paramètres du jeu de données
+nombre_labels = 42
+exemples_par_label = 50
+nombre_total_exemples = nombre_labels * exemples_par_label
+
+# Génération des données
+X, y = make_multilabel_classification(
+    n_samples=nombre_total_exemples,
+    n_features=10,  # Nombre de caractéristiques par exemple
+    n_classes=nombre_labels,
+    n_labels=5,  # Nombre moyen de labels actifs par exemple
+    random_state=42
+)
+
+# Affichage des dimensions des données générées
+print("Dimensions de X :", X.shape)  # (nombre_total_exemples, nombre_caracteristiques)
+print("Dimensions de y :", y.shape)  # (nombre_total_exemples, nombre_labels)
+
+# Affichage d'un exemple
+exemple_index = 0
+print("Exemple", exemple_index)
+print("Caractéristiques :", X[exemple_index])
+print("Labels :", y[exemple_index])
