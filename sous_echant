@@ -1,11 +1,13 @@
 import numpy as np
 from sklearn.datasets import make_multilabel_classification
+from sklearn.model_selection import train_test_split
 from sklearn.utils import resample
 
 # Paramètres du jeu de données
 nombre_labels = 42
 exemples_par_label = 50
 nombre_total_exemples = nombre_labels * exemples_par_label
+test_size = 0.2  # Proportion de l'ensemble de test
 
 # Génération des données initiales
 X, y = make_multilabel_classification(
@@ -16,28 +18,41 @@ X, y = make_multilabel_classification(
     random_state=42
 )
 
-# Compter le nombre d'exemples par label
-nombre_exemples_par_label = np.sum(y, axis=0)
+# Séparation des données en ensembles de train et de test
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size, random_state=42)
 
-# Déterminer le nombre minimal d'exemples par label
-nombre_min_exemples = np.min(nombre_exemples_par_label)
+# Compter le nombre d'exemples par label dans l'ensemble d'entraînement
+nombre_exemples_par_label_train = np.sum(y_train, axis=0)
 
-# Sous-échantillonnage équilibré par label
-X_sous_echantillon = []
-y_sous_echantillon = []
+# Déterminer le nombre minimal d'exemples par label dans l'ensemble d'entraînement
+nombre_min_exemples_train = np.min(nombre_exemples_par_label_train)
+
+# Sous-échantillonnage équilibré par label pour l'ensemble d'entraînement
+X_train_sous_echantillon = []
+y_train_sous_echantillon = []
 for label in range(nombre_labels):
-    # Sélectionner les indices des exemples du label actuel
-    indices_label = np.where(y[:, label] == 1)[0]
-    # Sous-échantillonner les exemples pour atteindre le nombre minimal
-    indices_sous_echantillon = resample(indices_label, replace=False, n_samples=nombre_min_exemples, random_state=42)
-    # Ajouter les exemples sous-échantillonnés aux données finales
-    X_sous_echantillon.extend(X[indices_sous_echantillon])
-    y_sous_echantillon.extend(y[indices_sous_echantillon])
+    # Sélectionner les indices des exemples du label actuel dans l'ensemble d'entraînement
+    indices_label_train = np.where(y_train[:, label] == 1)[0]
+    # Sous-échantillonner les exemples pour atteindre le nombre minimal dans l'ensemble d'entraînement
+    indices_sous_echantillon_train = resample(indices_label_train, replace=False, n_samples=nombre_min_exemples_train, random_state=42)
+    # Ajouter les exemples sous-échantillonnés aux données d'entraînement finales
+    X_train_sous_echantillon.extend(X_train[indices_sous_echantillon_train])
+    y_train_sous_echantillon.extend(y_train[indices_sous_echantillon_train])
 
-# Convertir les données en tableaux numpy
-X_sous_echantillon = np.array(X_sous_echantillon)
-y_sous_echantillon = np.array(y_sous_echantillon)
+# Convertir les données d'entraînement en tableaux numpy
+X_train_sous_echantillon = np.array(X_train_sous_echantillon)
+y_train_sous_echantillon = np.array(y_train_sous_echantillon)
 
-# Affichage des dimensions des données sous-échantillonnées
-print("Dimensions de X_sous_echantillon :", X_sous_echantillon.shape)
-print("Dimensions de y_sous_echantillon :", y_sous_echantillon.shape)
+# Compter le nombre d'exemples par label dans l'ensemble de test
+nombre_exemples_par_label_test = np.sum(y_test, axis=0)
+
+# Déterminer le nombre minimal d'exemples par label dans l'ensemble de test
+nombre_min_exemples_test = np.min(nombre_exemples_par_label_test)
+
+# Sous-échantillonnage équilibré par label pour l'ensemble de test
+X_test_sous_echantillon = []
+y_test_sous_echantillon = []
+for label in range(nombre_labels):
+    # Sélectionner les indices des exemples du label actuel dans l'ensemble de test
+    indices_label_test = np.where(y_test[:, label] == 1)[0]
+   
