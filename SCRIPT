@@ -1,0 +1,27 @@
+import pyautogui
+import time
+from datetime import datetime, timedelta
+
+# Temps d'attente avant de commencer (en secondes)
+wait_time = 10
+
+# Demander à l'utilisateur la date de fin
+end_datetime_str = input("Veuillez entrer la date et l'heure de fin (au format JJ-MM-AAAA HH:MM) : ")
+
+# Convertir la date et l'heure de fin en objet datetime
+end_datetime = datetime.strptime(end_datetime_str, "%d-%m-%Y %H:%M")
+
+# Ajouter le temps d'attente initial
+end_datetime += timedelta(seconds=wait_time)
+
+# Boucle pour maintenir l'application active jusqu'à l'heure de fin
+while datetime.now() < end_datetime:
+    try:
+        # Appuyer sur une touche pour simuler une interaction avec l'application
+        pyautogui.press('tab')
+
+        # Attendre pendant quelques secondes
+        time.sleep(10)
+    except pyautogui.FailSafeException:
+        # Sortir de la boucle lorsque l'exception FailSafeException est déclenchée
+        break
