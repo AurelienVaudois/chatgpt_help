@@ -1,3 +1,8 @@
+docs_df = pd.DataFrame(data, columns=["Doc"])
+docs_df['Topic'] = cluster.labels_
+docs_df['Doc_ID'] = range(len(docs_df))
+docs_per_topic = docs_df.groupby(['Topic'], as_index = False).agg({'Doc': ' '.join})
+
 import numpy as np
 from sklearn.feature_extraction.text import CountVectorizer
 
