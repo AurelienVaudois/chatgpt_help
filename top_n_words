@@ -1,0 +1,19 @@
+def extract_top_n_words_per_topic(tf_idf, count, docs_per_topic, n=20):
+    words = count.get_feature_names()
+    labels = list(docs_per_topic.Topic)
+    tf_idf_transposed = tf_idf.T
+    indices = tf_idf_transposed.argsort()[:, -n:]
+    top_n_words = {label: [(words[j], tf_idf_transposed[i][j]) for j in indices[i]][::-1] for i, label in enumerate(labels)}
+    return top_n_words
+
+def extract_topic_sizes(df):
+    topic_sizes = (df.groupby(['Topic'])
+                     .Doc
+                     .count()
+                     .reset_index()
+                     .rename({"Topic": "Topic", "Doc": "Size"}, axis='columns')
+                     .sort_values("Size", ascending=False))
+    return topic_sizes
+
+top_n_words = extract_top_n_words_per_topic(tf_idf, count, docs_per_topic, n=20)
+topic_sizes = extract_topic_sizes(docs_df); topic_sizes.head(10)
