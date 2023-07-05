@@ -4,3 +4,10 @@ def is_column_text(dataframe, column_name):
     column_values = dataframe[column_name]
     is_text = column_values.apply(lambda x: isinstance(x, str))
     return is_text.all()
+
+if is_column_text(df, 'Colonne'):
+    # Mesurer la taille du texte dans la colonne
+    df['Taille'] = df['Colonne'].apply(lambda x: len(x))
+    print(df)
+else:
+    print("La colonne ne contient pas que du texte.")
