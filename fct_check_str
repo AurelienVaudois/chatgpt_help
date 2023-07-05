@@ -1,0 +1,6 @@
+import pandas as pd
+
+def is_column_text(dataframe, column_name):
+    column_values = dataframe[column_name]
+    is_text = column_values.apply(lambda x: isinstance(x, str))
+    return is_text.all()
