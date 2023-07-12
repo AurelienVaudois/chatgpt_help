@@ -1,0 +1,11 @@
+Je m'excuse pour la confusion précédente. Vous avez raison, BERTopic ne s'occupe pas directement du prétraitement des données. Par conséquent, voici une correction pour décrire précisément les étapes de l'algorithme BERTopic :
+
+    Vectorisation des documents : L'algorithme BERTopic utilise un modèle de langage pré-entraîné, généralement basé sur BERT, pour transformer chaque document en une représentation vectorielle. Le modèle attribue à chaque document un vecteur numérique de grande dimension qui capture les informations sémantiques et contextuelles du texte.
+
+    Réduction de dimension : Les vecteurs de grande dimension obtenus à partir de l'étape précédente sont réduits à une dimension inférieure en utilisant des techniques de réduction de dimension, telles que l'analyse en composantes principales (PCA) ou l'UMAP. Cette étape permet de réduire la complexité du calcul et de faciliter l'analyse et la visualisation ultérieures.
+
+    Regroupement des documents : Une fois les vecteurs de dimension réduite obtenus, BERTopic applique un algorithme de regroupement, généralement DBSCAN (Density-Based Spatial Clustering of Applications with Noise) ou HDBSCAN (Hierarchical Density-Based Spatial Clustering of Applications with Noise), pour regrouper les documents similaires dans des clusters. Les algorithmes de regroupement se basent sur la similarité des vecteurs pour identifier les groupes de documents qui partagent des caractéristiques similaires.
+
+    Extraction des mots-clés : Après le regroupement, BERTopic extrait les mots-clés les plus représentatifs pour chaque cluster. Cela peut être réalisé en utilisant des mesures de pertinence, comme la fréquence des mots dans chaque cluster. L'extraction des mots-clés permet de mieux comprendre le contenu de chaque groupe de documents.
+
+    Visualisation des résultats : Enfin, BERTopic offre des fonctionnalités de visualisation pour explorer et interpréter les résultats du regroupement. Les clusters peuvent être représentés graphiquement, par exemple sous forme de graphes ou de cartes, où les documents similaires sont regroupés ensemble, facilitant ainsi l'analyse visuelle des clusters.
